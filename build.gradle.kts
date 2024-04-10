@@ -1,31 +1,37 @@
+// Gradle config file
+// https://docs.gradle.org/current/userguide/userguide.html
+
 plugins {
+    // using Kotlin/JVM
     kotlin("jvm") version "1.9.23"
 }
 
 group = "mr3zee.pet"
 version = "1.0-SNAPSHOT"
 
+// source for dependencies
 repositories {
     mavenCentral()
 }
 
+// dependencies of the app
 dependencies {
     implementation(kotlin("stdlib"))
+    // OpenAI Kotlin client
     implementation("com.aallam.openai:openai-client:3.7.1")
+    // Ktor Client engine
     implementation("io.ktor:ktor-client-okhttp:2.3.10")
-    implementation("io.ktor:ktor-client-okhttp-jvm:2.3.10")
+    // for Ktor logs
     implementation("org.slf4j:slf4j-simple:1.6.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.7.3")
-    testImplementation(kotlin("test"))
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
 kotlin {
     jvmToolchain(17)
 }
 
+// fat jar task (usage: `./gradlew fatJar`)
+// creates a fat jar for the application (https://stackoverflow.com/questions/11947037/what-is-an-uber-jar-file)
+// use run.sh script to run the app
 tasks.create<Jar>("fatJar") {
     manifest {
         attributes("Main-Class" to "MainKt")
